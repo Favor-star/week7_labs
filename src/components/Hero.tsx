@@ -1,14 +1,19 @@
 import { SearchIcon } from "lucide-react";
+import Image from "next/image";
 import React from "react";
 
 const Hero = () => {
   return (
     <div
-      className="w-full min-h-[500px] h-full bg-no-repeat bg-cover mt-5 rounded-2xl  overflow-hidden  flex flex-col  justify-end items-start pb-10 ps-10 space-y-9"
+      className="w-full bg-no-repeat bg-cover  rounded-2xl  h-fit flex flex-col  justify-end items-start pb-10 ps-10 relative min-h-[500px]"
       style={{ backgroundImage: "url(/bg2.webp)" }}
     >
-      <p className="text-3xl font-bold text-white">Find your next remote job</p>
-      <HeroSearch />
+      <div className="absolute bottom-10 left-10 space-y-5">
+        <p className="text-4xl font-bold text-white">
+          Find your next remote job
+        </p>
+        <HeroSearch />
+      </div>
     </div>
   );
 };
@@ -26,7 +31,7 @@ const HeroSearch = () => {
         placeholder="Search for jobs"
         className="p-2 outline-none focus-within:outline-none max-w-[500px] w-full"
       />
-      <button className="text-white bg-primary p-2 rounded-lg font-medium">
+      <button className="text-white bg-primary p-2 px-4  rounded-lg font-medium">
         Search
       </button>
     </div>

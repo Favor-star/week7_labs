@@ -4,6 +4,7 @@ import Search from "./Search";
 import {
   BookMarkedIcon,
   BookmarkIcon,
+  BriefcaseBusiness,
   CogIcon,
   Settings2,
   SettingsIcon,
@@ -31,7 +32,10 @@ const Navbar = () => {
   return (
     <nav className="flex justify-between items-center w-full border-b-2 border-secondary pb-2">
       <div className="space-x-10 flex w-full">
-        <span>Logo</span>
+        <div className="space-x-2">
+          <BriefcaseBusiness strokeWidth={1.2} size={18} className="inline" />
+          <span className="font-bold">RemoteCraft</span>
+        </div>
         <ul className="space-x-4 flex">
           {navLinks.map((link, i) => (
             <li key={i}>
