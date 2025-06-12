@@ -1,22 +1,24 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-import Layout from "@/compoonents/Layout";
-import Hero from "@/compoonents/Hero";
+import Hero from "@/components/Hero";
+import FeaturedJobs from "@/components/FeaturedJobs";
+import { InferGetStaticPropsType } from "next";
+import type { JobsResponse } from "../../declaration";
+import { GetStaticProps } from "next";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export default function Home() {
+export default function Home({
+  jobs,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <div className="max-w-screen-lg w-full ">
+    <div className="max-w-screen-lg  w-full space-y-9">
       <Hero />
+      <FeaturedJobs jobs={jobs} />
     </div>
   );
 }
+
+export const getStaticProps = (async () => {
+  const res = await fetch("https://remotive.com/api/remote-jobs?limit=20");
+  const jobs: JobsResponse = await res.json();
+  return {
+    props: { jobs },
+  };
+}) satisfies GetStaticProps<{ jobs: JobsResponse }>;

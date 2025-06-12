@@ -1,4 +1,4 @@
-import Layout from "@/compoonents/Layout";
+import Layout from "@/components/Layout";
 import React from "react";
 
 const SingleJob = () => {
