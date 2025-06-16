@@ -3,29 +3,37 @@ import React from "react";
 import { JobPropsType } from "../../declaration";
 import Link from "next/link";
 import Image from "next/image";
-const SingleJob = ({ job }: { job: JobPropsType }) => {
+const SingleJob = ({
+  job,
+  forHome = true,
+}: {
+  job: JobPropsType;
+  forHome?: boolean;
+}) => {
   const { company_logo, company_name, title, salary, id } = job;
   return (
     <div className="w-full flex justify-between items-center">
       <div className=" flex items-center justify-center gap-2">
-        {company_logo ? (
-          <Image
-            src={company_logo}
-            alt={`${company_name}'s logo`}
-            height={65}
-            width={65}
-            className="rounded-xl inline shadow p-2"
-          />
-        ) : (
-          <BriefcaseBusiness
-            size={65}
-            strokeWidth={1.2}
-            className="p-3 bg-secondary text-black rounded-xl inline"
-          />
-        )}
+        {forHome &&
+          (company_logo ? (
+            <Image
+              src={company_logo}
+              alt={`${company_name}'s logo`}
+              height={65}
+              width={65}
+              className="rounded-xl inline shadow p-2"
+            />
+          ) : (
+            <BriefcaseBusiness
+              size={65}
+              strokeWidth={1.2}
+              className="p-3 bg-secondary text-black rounded-xl inline"
+            />
+          ))}
         <div className="inline">
           <p className="font-medium text-base">
-            {title} at {company_name}
+            <span className="">{title}</span>{" "}
+            <span className="font-normal italic">at</span> {company_name}
           </p>
           <p className="italic text-black/60">
             {salary.length === 0 ? "Not specified" : salary}

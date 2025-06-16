@@ -1,6 +1,4 @@
-import { InferGetStaticPropsType } from "next";
 import SingleJob from "./SingleJob";
-import { getStaticProps } from "@/pages";
 import { JobsResponse } from "../../declaration";
 
 const FeaturedJobs = ({ jobs }: { jobs: JobsResponse }) => {

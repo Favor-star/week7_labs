@@ -17,5 +17,5 @@ export interface JobPropsType {
   candidate_required_location: string;
   salary: string;
   description: string;
-  company_logo_url: string;
+  company_logo_url?: string;
 }

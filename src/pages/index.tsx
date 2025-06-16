@@ -3,6 +3,7 @@ import FeaturedJobs from "@/components/FeaturedJobs";
 import { InferGetStaticPropsType } from "next";
 import type { JobsResponse } from "../../declaration";
 import { GetStaticProps } from "next";
+import { mockJobs } from "@/mocks/mockJobs";
 
 export default function Home({
   jobs,
@@ -18,6 +19,7 @@ export default function Home({
 export const getStaticProps = (async () => {
   const res = await fetch("https://remotive.com/api/remote-jobs?limit=20");
   const jobs: JobsResponse = await res.json();
+  // const jobs = mockJobs;
   return {
     props: { jobs },
   };
