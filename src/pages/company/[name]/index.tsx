@@ -1,9 +1,9 @@
-import { mockJobs } from "@/mocks/mockJobs";
 import { GetStaticProps, InferGetStaticPropsType, GetStaticPaths } from "next";
 import Image from "next/image";
 import React from "react";
 import type { JobPropsType, JobsResponse } from "../../../../declaration";
 import SingleJob from "@/components/SingleJob";
+import { useRouter } from "next/router";
 
 export const getStaticPaths = (async () => {
   // const res = await fetch("");
@@ -16,21 +16,19 @@ export const getStaticPaths = (async () => {
   }));
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }) satisfies GetStaticPaths;
 
 export const getStaticProps = (async ({ params }) => {
   // const res = await fetch(" ");
-  console.log("params in getStaticProps:", params?.name); // 👈 Add this line
 
-  const response = mockJobs;
-  const resultNames = response.jobs.map((el) => el.company_name);
-  console.log("Avaliable companies: ", resultNames);
+  const res = await fetch("https://remotive.com/api/remote-jobs?limit=20");
+  const response: JobsResponse = await res.json();
+  // const response = mockJobs;
   const jobs = response.jobs.filter(
     (job) => job.company_name.trim() === params?.name
   );
-  // console.log("Filtered jobs:", jobs); // Optional: log filtered jobs
 
   return {
     props: {
@@ -40,6 +38,16 @@ export const getStaticProps = (async ({ params }) => {
 }) satisfies GetStaticProps<{ jobs: JobPropsType[] }>;
 
 const CompanyPage = ({ jobs }: { jobs: JobPropsType[] }) => {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <p>Loading...</p>;
+  }
+
+  if (!jobs || Object.keys(jobs).length === 0) {
+    return <p>Company not found</p>;
+  }
+
   const categories = [...new Set(jobs.map((job) => job.category))];
   return (
     <section className="w-full flex  gap-5 min-h-[80svh]">
@@ -57,7 +65,7 @@ const CompanyPage = ({ jobs }: { jobs: JobPropsType[] }) => {
       <div className="w-full max-w-9/12 space-y-3">
         <div className="flex justify-between">
           <Image
-            src={jobs[0].company_logo}
+            src={jobs[0]?.company_logo ?? ""}
             alt={`${jobs[0].company_name}'s company logo`}
             height={100}
             width={100}

@@ -3,7 +3,6 @@ import FeaturedJobs from "@/components/FeaturedJobs";
 import { InferGetStaticPropsType } from "next";
 import type { JobsResponse } from "../../declaration";
 import { GetStaticProps } from "next";
-import { mockJobs } from "@/mocks/mockJobs";
 
 export default function Home({
   jobs,
@@ -22,5 +21,6 @@ export const getStaticProps = (async () => {
   // const jobs = mockJobs;
   return {
     props: { jobs },
+    revalidate: 30,
   };
 }) satisfies GetStaticProps<{ jobs: JobsResponse }>;

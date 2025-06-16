@@ -1,9 +1,10 @@
-import { mockJobs } from "@/mocks/mockJobs";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 import React from "react";
 import { JobPropsType, JobsResponse } from "../../../../declaration";
 import { ExternalLinkIcon } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+
 type SingleJobPost = JobPropsType;
 
 export const getStaticPaths = (async () => {
@@ -21,9 +22,7 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 export const getStaticProps = (async ({ params }) => {
-  const res = await fetch("https://remotive.com/api/remote-jobs?limit=20", {
-
-  });
+  const res = await fetch("https://remotive.com/api/remote-jobs?limit=20", {});
   const result: JobsResponse = await res.json();
   // const result = mockJobs;
   const singleJobPost =
@@ -39,6 +38,16 @@ export const getStaticProps = (async ({ params }) => {
 const SingleJob = ({
   singleJobPost,
 }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <p>Loading...</p>;
+  }
+
+  if (!singleJobPost || Object.keys(singleJobPost).length === 0) {
+    return <p>Job not found</p>;
+  }
+
   const {
     title,
     company_name,
@@ -50,7 +59,7 @@ const SingleJob = ({
     url,
     publication_date,
     salary,
-  } = singleJobPost;
+  } = singleJobPost ?? {};
   return (
     <section className="w-full max-w-screen-lg space-y-3">
       <div className="w-full flex justify-between">
